@@ -1,0 +1,14 @@
+body {
+    background-color: white;
+
+}
+
+.port{
+    margin: 5px;
+    padding: 2px;
+    background-color: green;
+}
+
+.port:hover{
+    background-color: blue;
+}

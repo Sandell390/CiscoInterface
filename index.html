@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+</head>
+
+
+<body>
+    <py-config>
+    [[fetch]]
+    files = ["./example.py"]
+    </py-config>
+    <div id="ports">
+
+    </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/pyodide/v0.22.1/full/pyodide.js"></script>
+
+    <h1 id="hej">Hello world</h1>
+    <script type="text/javascript">
+      async function main() {
+        console.log("start");
+        let pyodide = await loadPyodide();
+        await pyodide.loadPackage("micropip");
+        const micropip = pyodide.pyimport("micropip");
+        await micropip.install("paramiko", keep_going=true);
+        await pyodide.runPython(`
+        import netmiko
+        connection = netmiko.ConnectHandler(ip="192.168.2.2", device_type="cisco_ios", username="cisco", password="cisco", secret="admin")
+        print(connection)
+      `);
+        console.log("end");
+      }
+      console.log("================================");
+      main();
+    </script>
+</body>
+
+</html>
